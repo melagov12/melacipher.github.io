@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MelaCipher - Secure Pentest Report Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>MelaCipher</span>
+                </div>
+                <div class="tagline">Secure Pentest Report Generator</div>
+            </div>
+            
+            <!-- User Profile & XP -->
+            <div class="user-profile">
+                <div class="xp-container">
+                    <div class="xp-bar">
+                        <div class="xp-progress" id="xpProgress"></div>
+                    </div>
+                    <div class="xp-text">
+                        <span id="currentXP">0</span> / <span id="totalXP">100</span> XP
+                    </div>
+                </div>
+                <div class="user-avatar">
+                    <i class="fas fa-user-secret"></i>
+                    <div class="user-level">Lvl <span id="userLevel">1</span></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Mission Progress -->
+            <div class="mission-progress">
+                <div class="mission-steps">
+                    <div class="mission-step active" data-step="1">
+                        <div class="step-icon"><i class="fas fa-user"></i></div>
+                        <div class="step-label">Client Info</div>
+                    </div>
+                    <div class="mission-step" data-step="2">
+                        <div class="step-icon"><i class="fas fa-file-alt"></i></div>
+                        <div class="step-label">Executive</div>
+                    </div>
+                    <div class="mission-step" data-step="3">
+                        <div class="step-icon"><i class="fas fa-crosshairs"></i></div>
+                        <div class="step-label">Scope</div>
+                    </div>
+                    <div class="mission-step" data-step="4">
+                        <div class="step-icon"><i class="fas fa-bug"></i></div>
+                        <div class="step-label">Findings</div>
+                    </div>
+                    <div class="mission-step" data-step="5">
+                        <div class="step-icon"><i class="fas fa-clipboard-check"></i></div>
+                        <div class="step-label">Conclusion</div>
+                    </div>
+                    <div class="mission-step" data-step="6">
+                        <div class="step-icon"><i class="fas fa-tools"></i></div>
+                        <div class="step-label">Appendix</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Section -->
+            <div class="form-section">
+                <form id="reportForm">
+                    <!-- Step 1: Client Information -->
+                    <div class="form-step active" data-step="1">
+                        <div class="step-header">
+                            <h2><i class="fas fa-building"></i> Client Information</h2>
+                            <div class="step-badge">+10 XP</div>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="client">Client Organization</label>
+                                <input type="text" id="client" required>
+                                <div class="input-feedback"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="reportDate">Report Date</label>
+                                <input type="date" id="reportDate" required>
+                                <div class="input-feedback"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="startDate">Test Start Date</label>
+                                <input type="date" id="startDate" required>
+                                <div class="input-feedback"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="endDate">Test End Date</label>
+                                <input type="date" id="endDate" required>
+                                <div class="input-feedback"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="team">Test Team</label>
+                                <input type="text" id="team" required>
+                                <div class="input-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Executive Summary -->
+                    <div class="form-step" data-step="2">
+                        <div class="step-header">
+                            <h2><i class="fas fa-file-alt"></i> Executive Summary</h2>
+                            <div class="step-badge">+15 XP</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="execSummary">Summary</label>
+                            <textarea id="execSummary" rows="5" required placeholder="Provide a high-level summary of the penetration test..."></textarea>
+                            <div class="input-feedback"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Scope -->
+                    <div class="form-step" data-step="3">
+                        <div class="step-header">
+                            <h2><i class="fas fa-crosshairs"></i> Scope</h2>
+                            <div class="step-badge">+10 XP</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="scope">Scope Description</label>
+                            <textarea id="scope" rows="5" required placeholder="Define what was in scope and what was out of scope..."></textarea>
+                            <div class="input-feedback"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: Findings -->
+                    <div class="form-step" data-step="4">
+                        <div class="step-header">
+                            <h2><i class="fas fa-bug"></i> Findings</h2>
+                            <div class="step-badge">+20 XP per finding</div>
+                        </div>
+                        
+                        <div id="findingsContainer">
+                            <div class="finding-item">
+                                <div class="finding-header">
+                                    <h3>Finding #1</h3>
+                                    <div class="finding-controls">
+                                        <div class="severity-selector">
+                                            <label>Severity:</label>
+                                            <select class="severity">
+                                                <option value="critical">Critical</option>
+                                                <option value="high">High</option>
+                                                <option value="medium" selected>Medium</option>
+                                                <option value="low">Low</option>
+                                                <option value="info">Informational</option>
+                                            </select>
+                                        </div>
+                                        <button type="button" class="remove-finding"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <input type="text" class="finding-title" required>
+                                        <div class="input-feedback"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Affected System</label>
+                                        <input type="text" class="finding-system" required>
+                                        <div class="input-feedback"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea class="finding-description" rows="3" required></textarea>
+                                    <div class="input-feedback"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Proof of Concept</label>
+                                    <textarea class="finding-evidence" rows="3" required></textarea>
+                                    <div class="input-feedback"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Impact</label>
+                                    <textarea class="finding-impact" rows="3" required></textarea>
+                                    <div class="input-feedback"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Recommendation</label>
+                                    <textarea class="finding-recommendation" rows="3" required></textarea>
+                                    <div class="input-feedback"></div>
+                                </div>
+                                
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>Remediation Priority</label>
+                                        <select class="finding-priority">
+                                            <option value="Immediate (0-7 days)">Immediate (0-7 days)</option>
+                                            <option value="Short-term (1-2 weeks)">Short-term (1-2 weeks)</option>
+                                            <option value="Medium-term (1 month)">Medium-term (1 month)</option>
+                                            <option value="Long-term (3+ months)">Long-term (3+ months)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Estimated Effort</label>
+                                        <select class="finding-effort">
+                                            <option value="Low">Low</option>
+                                            <option value="Medium">Medium</option>
+                                            <option value="High">High</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="button" id="addFinding" class="btn-add">
+                            <i class="fas fa-plus"></i> Add Another Finding
+                        </button>
+                    </div>
+                    
+                    <!-- Step 5: Conclusion -->
+                    <div class="form-step" data-step="5">
+                        <div class="step-header">
+                            <h2><i class="fas fa-clipboard-check"></i> Conclusion</h2>
+                            <div class="step-badge">+15 XP</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="conclusion">Conclusion</label>
+                            <textarea id="conclusion" rows="5" required placeholder="Summarize the overall security posture and recommendations..."></textarea>
+                            <div class="input-feedback"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 6: Appendix -->
+                    <div class="form-step" data-step="6">
+                        <div class="step-header">
+                            <h2><i class="fas fa-tools"></i> Appendix</h2>
+                            <div class="step-badge">+10 XP</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tools">Tools Used</label>
+                            <input type="text" id="tools" placeholder="e.g., Nmap, Burp Suite, Metasploit">
+                            <div class="input-feedback"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="scanResults">Detailed Scan Results</label>
+                            <textarea id="scanResults" rows="3"></textarea>
+                            <div class="input-feedback"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="glossary">Glossary</label>
+                            <textarea id="glossary" rows="3"></textarea>
+                            <div class="input-feedback"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="form-navigation">
+                <button type="button" id="prevStep" class="btn-nav" disabled>
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button type="button" id="nextStep" class="btn-nav">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+                <button type="button" id="previewBtn" class="btn-preview" style="display: none;">
+                    <i class="fas fa-eye"></i> Preview Report
+                </button>
+            </div>
+        </main>
+
+        <!-- Badges Modal -->
+        <div id="badgesModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Achievement Unlocked!</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="badge-container">
+                        <div class="badge-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="badge-info">
+                            <h3 id="badgeTitle">New Badge</h3>
+                            <p id="badgeDesc">You've earned a new badge!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-primary">Awesome!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Preview Modal -->
+    <div id="previewModal" class="modal modal-large">
+        <div class="modal-content modal-large-content">
+            <div class="modal-header">
+                <h2>Report Preview</h2>
+                <div class="modal-actions">
+                    <button id="downloadHTML" class="btn-download">
+                        <i class="fas fa-download"></i> HTML
+                    </button>
+                    <button id="downloadPDF" class="btn-download">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </button>
+                    <button class="close-modal">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="reportPreview"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
